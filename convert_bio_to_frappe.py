@@ -52,7 +52,7 @@ def extract_ids(input_file, output_file="employee_ids.csv"):
 from datetime import datetime
 
 
-def convert_file(input_file, output_file="frappe_checkin.csv"):
+def convert_file(input_file, output_file="frappe_checkin.csv", month=3, year=2026):
     df = pd.read_excel(input_file, sheet_name="Logs", header=None)
 
     results = []
@@ -60,8 +60,8 @@ def convert_file(input_file, output_file="frappe_checkin.csv"):
     current_employee = None
     current_emp_no = None
 
-    year = 2026
-    month = 3
+    # year = 2026
+    # month = 3
 
     i = 0
     while i < len(df):
@@ -130,6 +130,8 @@ if __name__ == "__main__":
 
     parser.add_argument("input_file", help="Path to Excel file")
     parser.add_argument("--output", help="Output file name")
+    parser.add_argument("--month", help="Month to convert", type=int)
+    parser.add_argument("--year", help="Year to convert", type=int)
     parser.add_argument("--extractid", action="store_true", help="Extract employee IDs only")
 
     args = parser.parse_args()
@@ -137,4 +139,4 @@ if __name__ == "__main__":
     if args.extractid:
         extract_ids(args.input_file, args.output or "employee_ids.csv")
     else:
-        convert_file(args.input_file, args.output or "frappe_checkin.csv")
+        convert_file(args.input_file, args.output or "frappe_checkin.csv", args.month, args.year)
